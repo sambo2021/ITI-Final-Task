@@ -4,3 +4,4 @@ client.crt
 client.key
 terraform.tfstate
 terraform.tfstate.backup
+.terraform
