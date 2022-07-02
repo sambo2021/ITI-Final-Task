@@ -1,1 +1,1 @@
-ansible-playbook -i inventory playbook.yaml --private-key ../Minikube-Infra/TF_key.pem -u ubuntu --verbose
+ansible-playbook -i inventory playbook.yaml --private-key ../Minikube-Infra/TF_key.pem -u ubuntu --ssh-common-args='-o StrictHostKeyChecking=no' --verbose
