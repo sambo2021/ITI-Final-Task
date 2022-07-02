@@ -63,19 +63,22 @@ resource "aws_instance" "publicinstance" {
       
     ]
 
-    provisioner "local-exec" { 
-    #adding instance public ip to inventory file 
-    command = <<-EOT
-     echo "[remote-server]" > ../Ansible-credentials/inventory
-     echo '${self.public_ip}' >> ../Ansible-credentials/inventory
-     EOT
-  }
+ 
     connection {
       type        = "ssh"
       host        = self.public_ip
       user        = "ubuntu"
       private_key = file("./TF_key.pem")
     }
+  }
+
+  provisioner "local-exec" { 
+    #adding instance public ip to inventory file 
+    command = <<-EOT
+     echo "[remote-server]" > ../Ansible-Credentials/inventory
+     echo '${self.public_ip}' >> ../Ansible-Credentials/inventory
+     sed -i -e 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"${self.public_ip}"'/g'  ../Kubernetes-Resources/main.tf
+     EOT
   }
  
 }

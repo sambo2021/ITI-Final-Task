@@ -1,1 +1,0 @@
-ansible-playbook -i inventory playbook.yaml --key-file ../Minikube-Infra/TF_key.pem -u ubuntu --check
