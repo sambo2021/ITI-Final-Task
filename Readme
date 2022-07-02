@@ -1,0 +1,5 @@
+1- touch an empty TF_key.pem at dir Minikube-Infra
+2- provide the backend of terraform by required s3 *ofcourse name would be changed* and dynamotable
+3- then -> terraform init   ,  terraform apply 
+4- then cd to Ansible-Credentials and apply -> ansible-playbook -i inventory playbook.yaml --private-key ../Minikube-Infra/TF_key.pem -u ubuntu --verbose
+5- then cd Kubernetes-Resources and -> terraform init  , terraform apply 
