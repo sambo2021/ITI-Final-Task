@@ -1,0 +1,6 @@
+.terraform.lock.hcl
+ca.crt
+client.crt
+client.key
+terraform.tfstate
+terraform.tfstate.backup

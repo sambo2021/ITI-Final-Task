@@ -55,13 +55,21 @@ resource "aws_instance" "publicinstance" {
       "sudo wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64",
       "sudo chmod +x /home/ubuntu/minikube-linux-amd64",
       "sudo cp minikube-linux-amd64 /usr/local/bin/minikube",
-      "sudo minikube start --memory 7500 --cpus 2 --disk-size 10GB --driver=docker --force",
+      "sudo minikube start --memory 7500 --cpus 2 --disk-size 10GB --apiserver-ips=${self.public_ip} --listen-address=0.0.0.0 --driver=docker --force",
       
       "sudo kubectl get pods",
       "sudo kubectl create namespace tools",
       "sudo kubectl create namespace dev",
       
     ]
+
+    provisioner "local-exec" { 
+    #adding instance public ip to inventory file 
+    command = <<-EOT
+     echo "[remote-server]" > ../Ansible-credentials/inventory
+     echo '${self.public_ip}' >> ../Ansible-credentials/inventory
+     EOT
+  }
     connection {
       type        = "ssh"
       host        = self.public_ip

@@ -1,0 +1,20 @@
+- name: copy minikube credentials to local 
+  hosts: remote-server
+  gather_facts: no
+  become: true
+  tasks:
+    - name: copy minikube cert
+      fetch:
+       flat: yes
+       src: ~/.minikube/ca.crt
+       dest: ../Kubernetes-Resources/
+    - name: copy client cert
+      fetch:
+       flat: yes
+       src: ~/.minikube/profiles/minikube/client.crt
+       dest: ../Kubernetes-Resources/
+    - name: copy client key
+      fetch:
+       flat: yes
+       src: ~/.minikube/profiles/minikube/client.key
+       dest: ../Kubernetes-Resources/
