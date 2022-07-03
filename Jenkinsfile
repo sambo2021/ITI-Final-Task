@@ -39,7 +39,7 @@
 // }
 podTemplate(inheritFrom: 'default')
         {
-            node('jenkins'){
+            node('app:jenkins'){
             stage('List Configmaps') {
                 withKubeConfig([namespace: "tools"]) {
                 sh 'kubectl get pods'
