@@ -15,7 +15,7 @@ pipeline {
                         sh '''
                         /kaniko/executor --dockerfile `pwd`/CI-CD/dockerfile \
                                         --context `pwd`/CI-CD \
-                                        --destination=abdurrhmansm/myweb:${BUILD_NUMBER}
+                                        --destination=docker-private-repo/myweb:${BUILD_NUMBER}
                         '''
                     }
                 }
