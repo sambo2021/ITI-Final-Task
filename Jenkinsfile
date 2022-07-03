@@ -13,7 +13,7 @@ pipeline {
                 container('kaniko'){
                     script{
                         sh '''
-                        /kaniko/executor --dockerfile `pwd`/CI-CD/Dockerfile \
+                        /kaniko/executor --dockerfile `pwd`/CI-CD/dockerfile \
                                         --context `pwd`/CI-CD \
                                         --destination=abdurrhmansm/myweb:${BUILD_NUMBER}
                         '''
