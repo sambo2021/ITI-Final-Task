@@ -1,11 +1,11 @@
 pipeline {
 
 
-    agent {
-        kubernetes {
-            yamlFile './CI-CD/builder.yaml'
-        }
-    }
+    // agent {
+    //     kubernetes {
+    //         yamlFile './CI-CD/builder.yaml'
+    //     }
+    // }
     stages {
         
         // stage('Kaniko Build & Push Image'){
@@ -22,13 +22,24 @@ pipeline {
         //     }
         // }
 
-        stage('Deploy App to Kubernetes') {
-            steps{
-                container('kubectl'){
-                    withCredentials([file(credentialsId: "mykubeconfig", variable: 'KUBECONFIG')]){
-                        sh 'kubectl run nginx --image=nginx'
-                    }
+        // stage('Deploy App to Kubernetes') {
+        //     steps{
+        //         container('kubectl'){
+        //             withCredentials([file(credentialsId: "mykubeconfig", variable: 'KUBECONFIG')]){
+        //                 sh 'kubectl run nginx --image=nginx'
+        //             }
+        //         }
+        //     }
+        // }
+        podTemplate(inheritFrom: 'default')
+        {
+            node('jenkins'){
+            stage('List Configmaps') {
+                withKubeConfig([namespace: "tools"]) {
+                sh 'kubectl get pods'
+                sh 'kubectl run nginx --image=nginx'
                 }
+            }
             }
         }
 
