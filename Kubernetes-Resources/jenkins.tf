@@ -13,8 +13,13 @@ resource "kubernetes_cluster_role" "jenkins-role" {
   }
   rule {
     api_groups = [ "" ]
-    resources = [ "pods" , "services", "secrets", "configmaps"]
+    resources = [ "pods" , "services", "secrets", "configmaps", "pods/exec"]
     verbs = ["create","delete","get","list","patch","update","watch"]
+  }
+  rule {
+    api_groups = [ "" ]
+    resources = [ "pods/log" ]
+    verbs = [ "get","list","watch" ]
   }
   rule {
     api_groups = [ "apps" ]
