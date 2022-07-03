@@ -1,4 +1,5 @@
 pipeline {
+    agent any
 
 
     // agent {
@@ -6,7 +7,6 @@ pipeline {
     //         yamlFile './CI-CD/builder.yaml'
     //     }
     // }
-    stages {
         
         // stage('Kaniko Build & Push Image'){
         //     steps{
@@ -43,6 +43,6 @@ pipeline {
             }
         }
 
-    }
+    
 
 }
