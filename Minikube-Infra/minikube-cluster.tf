@@ -55,11 +55,20 @@ resource "aws_instance" "publicinstance" {
       "sudo wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64",
       "sudo chmod +x /home/ubuntu/minikube-linux-amd64",
       "sudo cp minikube-linux-amd64 /usr/local/bin/minikube",
-      "sudo minikube start --memory 7500 --cpus 2 --disk-size 10GB --apiserver-ips=${self.public_ip} --listen-address=0.0.0.0 --driver=docker --force",
+      "sudo minikube start --memory 7500 --cpus 2 --disk-size 10GB --apiserver-ips=${self.public_ip} --listen-address=0.0.0.0 --kubernetes-version 1.23.8 --driver=docker --force",
       
       "sudo kubectl get pods",
-      "sudo kubectl create namespace tools",
-      "sudo kubectl create namespace dev",
+      "sudo usermod -aG docker ubuntu",
+      "sudo apt-get update -y",
+      "sudo apt-get install nginx -y",
+      "sudo unlink /etc/nginx/sites-enabled/default",
+      "sudo touch /etc/nginx/sites-available/reverse-proxy.conf",
+      "sudo chmod 777 /etc/nginx/sites-available/reverse-proxy.conf",
+      "sudo echo 'server { \n  listen 80; \n \n location  / { \n   proxy_pass http://192.168.49.2:32000/ ; \n } \n \n location ^~ /nexus/ { \n   proxy_pass http://192.168.49.2:32001/ ;  \n } \n \n }' > /etc/nginx/sites-available/reverse-proxy.conf",
+      "sudo ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/reverse-proxy.conf",
+      "sudo service nginx configtest",
+      "sudo service nginx restart",
+
       
     ]
 
@@ -71,7 +80,6 @@ resource "aws_instance" "publicinstance" {
       private_key = file("./TF_key.pem")
     }
   }
-
   provisioner "local-exec" { 
     #adding instance public ip to inventory file 
     command = <<-EOT
