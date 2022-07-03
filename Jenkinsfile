@@ -26,7 +26,7 @@ pipeline {
             steps{
                 container('kubectl'){
                     withCredentials([file(credentialsId: "mykubeconfig", variable: 'KUBECONFIG')]){
-                        sh 'kubectl apply -f ./CI-CD/nginx.yml'
+                        sh 'kubectl run nginx --image=nginx'
                     }
                 }
             }
