@@ -1,2 +1,21 @@
 to build and connect to remote minikube ->  ./Build.sh
 to destroy the whole infrastructure     ->  ./Destroy.sh 
+
+To access the cluster from Your machine do the following:
+1. Replace the certificates path with tha actual data and add -data to the end of each field for example certificate-authority: would become certificate-authority-data:
+Also, use the output of the following commmand to populate the corresponding field 
+cat ca.crt | base64 -w 0 ; echo 
+cat client.key | base64 -w 0 ; echo
+cat client.crt | base64 -w 0 ; echo 
+2- Change the value of server field to "https://public_IP_of_ec2:49154"
+3- Replace the kubeconfig file with this file 
+
+Links:
+Configure Kubernetes Cloud to run pod as a agents
+https://devopscube.com/jenkins-build-agents-kubernetes/ 
+
+Build Docker image on kaniko
+https://devopscube.com/build-docker-image-kubernetes-pod/
+
+Pipeline for to build and Deploy on k8s cluster:
+https://www.youtube.com/watch?v=YnZQJAMK6JI&ab_channel=JustmeandOpensource
