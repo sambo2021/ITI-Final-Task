@@ -7,13 +7,7 @@ pipeline {
         }
     }
     stages {
-        stage('test'){
-            steps{
-                script{
-                    sh 'docker images'
-                }
-            }
-        }
+     
         
         stage('Kaniko Build & Push Image'){
             steps{
