@@ -53,7 +53,7 @@
 
 pipeline {
     
-    agent kubernetes
+    agent { kubernetes }
     
     environment {
         imageName = "myapp"
