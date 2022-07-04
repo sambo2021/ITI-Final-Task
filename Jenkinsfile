@@ -53,7 +53,11 @@
 
 pipeline {
     
-    agent { kubernetes }
+    agent {
+        kubernetes {
+             yamlFile './CI-CD/builder.yaml'
+        }
+    }
     
     environment {
         imageName = "myapp"
