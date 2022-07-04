@@ -17,6 +17,7 @@ pipeline {
                         /kaniko/executor --dockerfile `pwd`/CI-CD/dockerfile \
                                         --context `pwd`/CI-CD \
                                         --destination=ec2-34-221-113-21.us-west-2.compute.amazonaws.com/nexus/repository/docker-private-repo/myweb:${BUILD_NUMBER}
+                                        --insecure --skip-tls-verify
                         '''
                     }
                 }
