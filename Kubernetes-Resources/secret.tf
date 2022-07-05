@@ -13,7 +13,7 @@ resource "kubernetes_secret" "dockerhub" {
           # "password" = var.registry_password
           # "email"    = var.registry_email
           # "auth"     = base64encode("${var.registry_username}:${var.registry_password}")
-          "10.111.188.201:8082" = {
+          "nexus-repo-svc1.tools.svc.cluster.local:8082" = {
           "username" = "admin"
           "password" = "admin"
           # "auth"     = base64encode("admin:admin")

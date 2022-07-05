@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    tier: app
+  name: app-deloyment
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: app
+  template:
+    metadata:
+      labels:
+        tier: app
+    spec:
+      containers:
+      - image: nexus-repo-svc1.tools.svc.cluster.local:8082/myweb:lts
+        name: myweb
+        ports:
+          - containerPort: 3000
+        resources: {}
+        env:
+          - name: HOST 
+            valueFrom:
+              secretKeyRef:
+                key: HOST
+                name: app-secret
+          - name: USERNAME
+            valueFrom:
+              secretKeyRef:
+                key: USERNAME
+                name:  app-secret
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: PASSWORD
+                name: app-secret
+          - name: DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: DATABASE
+                name: app-secret
+      imagePullSecrets:
+        -  name: dockercreds
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-svc
+  namespace: dev
+spec:
+  type: NodePort
+  selector:
+    tier: app
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 32002

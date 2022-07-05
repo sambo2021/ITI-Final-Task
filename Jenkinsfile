@@ -16,7 +16,7 @@ pipeline {
                         sh '''
                         /kaniko/executor --dockerfile `pwd`/CI-CD/dockerfile \
                                         --context `pwd`/CI-CD \
-                                        --destination=10.111.188.201:8082/myweb:v${BUILD_NUMBER} \
+                                        --destination=nexus-repo-svc1.tools.svc.cluster.local:8082/myweb:lts \
                                         --insecure \
                                         --skip-tls-verify
                         '''
@@ -29,7 +29,9 @@ pipeline {
             steps{
                 container('kubectl'){
                     withCredentials([file(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG')]){
-                        sh 'kubectl run -it  mysql --env MYSQL_ROOT_PASSWORD="password"  --port=3306  --image=mysql:5.6 -n dev'
+                        // sh 'kubectl run -it  mysql --env MYSQL_ROOT_PASSWORD="password"  --port=3306  --image=mysql:5.6 -n dev'
+                        sh 'kubectl apply -f ./CI-CD/mysql.yaml'
+                        sh 'kubectl apply -f ./CI-CD/app.yaml'
                       
                     }
                 }
