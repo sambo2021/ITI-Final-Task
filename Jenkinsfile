@@ -25,15 +25,15 @@ pipeline {
             }
         }
 
-        stage('Deploy App to Kubernetes') {
-            steps{
-                container('kubectl'){
-                    withCredentials([file(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG')]){
-                        sh 'kubectl apply -f CI-CD/nginx.yml '
-                    }
-                }
-            }
-        }
+        // stage('Deploy App to Kubernetes') {
+        //     steps{
+        //         container('kubectl'){
+        //             withCredentials([file(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG')]){
+        //                 sh 'kubectl apply -f CI-CD/nginx.yml '
+        //             }
+        //         }
+        //     }
+        // }
         
         
     }
