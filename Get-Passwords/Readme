@@ -1,0 +1,8 @@
+this file has ansible script to find 
+1- admin password of jenkins 
+2- admin password of nexus 
+3- nexus cluster ip service and use it in secret.tf and jenkinsfile 
+   then terraform apply pn kubernetes resources folder to change secret 
+   then git add .
+        git commit -m "update scret.tf and jenkinsfile
+        git push -u origin master 
