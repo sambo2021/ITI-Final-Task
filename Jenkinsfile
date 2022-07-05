@@ -16,7 +16,7 @@ pipeline {
                         sh '''
                         /kaniko/executor --dockerfile `pwd`/CI-CD/dockerfile \
                                         --context `pwd`/CI-CD \
-                                        --destination=http://34.211.82.4/nexus/repository/docker-private-repo/myweb:${BUILD_NUMBER}
+                                        --destination=http://nexus-repo-svc1:8082/repository/docker-private-repo/myweb:${BUILD_NUMBER}
                                         --insecure --skip-tls-verify
                         '''
                     }
