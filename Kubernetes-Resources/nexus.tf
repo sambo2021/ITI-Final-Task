@@ -33,6 +33,47 @@ resource "kubernetes_service" "nexus-svc" {
     }
 
 }
+
+
+
+
+
+
+
+
+
+resource "kubernetes_service" "nexus-repo-svc" {
+    metadata {
+      name = "nexus-repo-svc1"
+      namespace = "tools"
+    }
+
+    spec {
+      port {
+        port = 8082
+        protocol = "TCP"
+        target_port = 8082
+      }
+      selector = {
+        "app" = "nexus"
+      }
+      type = "ClusterIP" 
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 resource "kubernetes_deployment" "nexus" {
   metadata {
     name = "nexus-deployment"
@@ -73,7 +114,7 @@ resource "kubernetes_deployment" "nexus" {
           }
          volume_mount {
            name = "nexus-data"
-           mount_path = "/sonatype-work"
+           mount_path = "/nexus-data"
          }
         }
         volume {
