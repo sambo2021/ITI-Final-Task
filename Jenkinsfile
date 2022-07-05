@@ -13,7 +13,6 @@ pipeline {
             steps{
                 container('kaniko'){
                     script{
-                        withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'nexus__username', passwordVariable: 'nexus_pass')])
                         sh '''
                         /kaniko/executor --dockerfile `pwd`/CI-CD/dockerfile \
                                         --context `pwd`/CI-CD \
