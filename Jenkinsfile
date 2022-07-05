@@ -11,7 +11,7 @@ pipeline {
         
         stage('Kaniko Build & Push Image'){
             steps{
-                // withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'nexus_username', passwordVariable: 'nexus_pass')])
+               withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'nexus__username', passwordVariable: 'nexus_pass')])
                 container('kaniko'){
                     script{
                         sh '''
