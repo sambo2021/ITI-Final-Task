@@ -9,20 +9,20 @@ pipeline {
     stages {
      
         
-        stage('Kaniko Build & Push Image'){
-            steps{
-                // container('kaniko'){
-                //     script{
-                //         sh '''
-                //         /kaniko/executor --dockerfile `pwd`/CI-CD/dockerfile \
-                //                         --context `pwd`/CI-CD \
-                //                         --destination=http://10.111.188.201:8082/repository/docker-private-repo/myweb:v${BUILD_NUMBER}
-                //                         --insecure --skip-tls-verify
-                //         '''
-                //     }
-                // }
-            }
-        }
+        // stage('Kaniko Build & Push Image'){
+        //     steps{
+        //         container('kaniko'){
+        //             script{
+        //                 sh '''
+        //                 /kaniko/executor --dockerfile `pwd`/CI-CD/dockerfile \
+        //                                 --context `pwd`/CI-CD \
+        //                                 --destination=http://10.111.188.201:8082/repository/docker-private-repo/myweb:v${BUILD_NUMBER}
+        //                                 --insecure --skip-tls-verify
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Deploy App to Kubernetes') {
             steps{
