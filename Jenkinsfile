@@ -16,7 +16,7 @@ pipeline {
                         sh '''
                         /kaniko/executor --dockerfile `pwd`/CI-CD/dockerfile \
                                         --context `pwd`/CI-CD \
-                                        --destination=http://10.111.188.201:8082/myweb:v${BUILD_NUMBER}
+                                        --destination=nexus-repo-svc1.tools.svc.cluster.local:8082/myweb:v${BUILD_NUMBER}
                                         --insecure --skip-tls-verify
                         '''
                     }
