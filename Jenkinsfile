@@ -16,8 +16,9 @@ pipeline {
                         sh '''
                         /kaniko/executor --dockerfile `pwd`/CI-CD/dockerfile \
                                         --context `pwd`/CI-CD \
-                                        --destination=10.111.188.201:8082/myweb:v${BUILD_NUMBER}
-                                        --insecure --skip-tls-verify
+                                        --destination=10.111.188.201:8082/myweb:v${BUILD_NUMBER} \
+                                        --insecure \
+                                        --skip-tls-verify
                         '''
                     }
                 }
