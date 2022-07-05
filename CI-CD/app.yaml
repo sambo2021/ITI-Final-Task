@@ -16,7 +16,7 @@ spec:
         tier: app
     spec:
       containers:
-      - image: nexus-repo-svc1.tools.svc.cluster.local:8082/myweb:lts
+      - image: 10.111.188.201:8082/repository/docker-private-repo/myweb:lts
         name: myweb
         ports:
           - containerPort: 3000
