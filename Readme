@@ -1,5 +1,15 @@
-to build infrastructure, connect to remote minikube, deploy jenkins and nexus resources ->  ./Build.sh
-to destroy the whole infrastructure->  ./Destroy.sh 
+- to build infrastructure, connect to remote minikube, deploy jenkins and nexus resources ->  ./Build.sh
+- open jenkins by ec2 ip and set user name and password, then download kubernetes plugin and configure a cloud node of kubernetes as per kink number 1 
+- then add config file taht downloades locally by script as secret file on jenkins using id mykubeconfig
+- dont forget to restart jenkins 
+- open nexus at ec2-ip/nexus and set username and password *the same user name and password as secret.tf in ./Kubernetes-Resources* and create docker hosted repo at http port 8082 
+- back to jenkins and create a job of pipline by this repo link and Jenkinsfile
+- then you can access your application at ec2-ip/app  
+- to destroy the whole infrastructure->  ./Destroy.sh 
+- to know how we build the docker file inside kaniko container see Link number 2 
+- and to know prequesities that we had done of config file and kubernetes node cloud on jenkins see Link nunber 3
+
+
 
 To access the cluster from Your machine do the following:
 1. Replace the certificates path with tha actual data and add -data to the end of each field for example certificate-authority: would become certificate-authority-data:
@@ -11,11 +21,11 @@ cat client.crt | base64 -w 0 ; echo
 3- Replace the kubeconfig file with this file 
 
 Links:
-Configure Kubernetes Cloud to run pod as a agents
+1-Configure Kubernetes Cloud to run pod as a agents
 https://devopscube.com/jenkins-build-agents-kubernetes/ 
 
-Build Docker image on kaniko
+2-Build Docker image on kaniko
 https://devopscube.com/build-docker-image-kubernetes-pod/
 
-Pipeline for to build and Deploy on k8s cluster:
+3-Pipeline for to build and Deploy on k8s cluster:
 https://www.youtube.com/watch?v=YnZQJAMK6JI&ab_channel=JustmeandOpensource
