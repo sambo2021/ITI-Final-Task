@@ -28,18 +28,36 @@ resource "kubernetes_secret" "dockerhub" {
   ]
 }
 
+
+
+
+
+
 resource "kubernetes_secret" "nexushub" {
   metadata {
     name = "nexuscreds"
     namespace = "dev"
   }
- data = {
-    "username" = "admin"
-    "password" = "admin"
+    type = "kubernetes.io/dockerconfigjson"
 
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+       
+          "10.110.240.138:8082" = {
+          "username" = "admin"
+          "password" = "admin"
+      
+          
+        }
+      }
+    })
   }
 
    depends_on = [
     kubernetes_namespace.dev-ns
   ]
 }
+
+
+

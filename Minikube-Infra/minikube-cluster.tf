@@ -84,7 +84,7 @@ resource "aws_instance" "publicinstance" {
     #adding instance public ip to inventory file 
     command = <<-EOT
      echo "[remote-server]" > ../Ansible-Credentials/inventory
-     echo '${self.public_ip}' >> ../Ansible-Credentials/inventory
+     echo 'server1' >> ../Ansible-Credentials/inventory
      echo "[remote-server]" > ../Get-Passwords/inventory
      echo '${self.public_ip}' >> ../Get-Passwords/inventory
      sed -i -e 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"${self.public_ip}"'/g'  ../Kubernetes-Resources/main.tf

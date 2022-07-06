@@ -1,7 +1,6 @@
 if [[  -f "./Minikube-Infra/TF_key.pem" ]]; then
     cd ./Kubernetes-Resources
     terraform destroy -auto-approve
-
     cd ../Minikube-Infra
     terraform destroy -auto-approve
     cd ..

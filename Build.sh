@@ -12,7 +12,7 @@ if [[ ! -f "./Minikube-Infra/TF_key.pem" ]]; then
 
     #play ansible that get all certificates and config file to local ../Kubernetes-Resources
     cd ../Ansible-Credentials
-    ansible-playbook -i inventory playbook.yaml --private-key ../Minikube-Infra/TF_key.pem -u ubuntu --ssh-common-args='-o StrictHostKeyChecking=no' --verbose
+    ansible-playbook  playbook.yaml --private-key ../Minikube-Infra/TF_key.pem -u ubuntu --ssh-common-args='-o StrictHostKeyChecking=no' --verbose
     
     # after getting config file change its certificates by data 
     cd ../Kubernetes-Resources
@@ -38,8 +38,8 @@ if [[ ! -f "./Minikube-Infra/TF_key.pem" ]]; then
     cd ../Get-Passwords
     ansible-playbook -i inventory playbook.yaml --private-key ../Minikube-Infra/TF_key.pem -u ubuntu --ssh-common-args='-o StrictHostKeyChecking=no' 
     # applly agian kubernetes resources to change that new service ip cause the old one from our previous build
-    # cd ../Kubernetes-Resources
-    # terraform apply -auto-approve
+    cd ../Kubernetes-Resources
+    terraform apply -auto-approve
 
     # now pushing all new changins to git hub 
     cd ..

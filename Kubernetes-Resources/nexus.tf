@@ -65,7 +65,9 @@ resource "kubernetes_service" "nexus-repo-svc" {
       }
       type = "ClusterIP" 
     }
-
+  depends_on = [
+    kubernetes_namespace.tools-ns
+  ]
 }
 
 
