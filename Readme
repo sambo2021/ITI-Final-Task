@@ -1,6 +1,20 @@
-# Final ITI project intake 42
-This project provision an ec2 on aws and configure to run minikube to function as a a single-node kubernetes cluster, deploy a nodejs app and install nginx to function as a reverse-proxy.\
+<div id="header" align="center"> <h1> Final ITI project intake 42 </h1></div>
+![docker](https://img.shields.io/badge/Docker-Container-blue)
+![terraform](https://img.shields.io/badge Terraform-Infrastructure-darkblue)
+![ansible](https://img.shields.io/badge/Ansible-Configuration-lightblack)
+![jenkins](https://img.shields.io/badge/Jenkins-Automation-white)
+![aws](https://img.shields.io/badge/AWS-CloudProvider-yellow)
+![Kuberntes](https://img.shields.io/badge/kubernetes-Orchesterator-blue)
+
+
+
+<div>
+<h4>
+This project provision an ec2 on aws and configure to run minikube to function as a a single-node kubernetes cluster, deploy a nodejs app and install nginx to function as a reverse-proxy
 Follow the Steps section to run this project.
+</h4>
+</div>
+
 ### :hammer_and_wrench: Languages and Tools :
 <div >
 <img src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original-wordmark.svg" title="nodejs" alt="nodejs" width="40" height="40"/>&nbsp;
@@ -17,39 +31,27 @@ Follow the Steps section to run this project.
  <img src="https://github.com/devicons/devicon/blob/master/icons/centos/centos-original-wordmark.svg" title="centos" alt="centos" width="40" height="40"/>&nbsp;        
 </div>
 
-## Prerequisites
+### Prerequisites
 
-1. Create an aws iam user with programmatic access. Run the following command to access the aws and create resources
+- Create an aws iam user with programmatic access. Run the following command to access the aws and create resources
+```sh
+   aws configure
 ```
-aws configure
+- Create a S3 bucket to be used to store the terraform state file and enable versioning. Add the name of the S3 bucket to the main.tf file in the Minikube-Infra directory.
+- Create a Dynamodb table named iti-final-task with partition key named LockID of type String.
+
+
+
+### Steps to Deploy the application
+- Clone the the repo
+```sh
+   git clone git@github.com:sambo2021/ITI-Final-Task.git
 ```
-2. Create a S3 bucket to be used to store the terraform state file and enable versioning. Add the name of the S3 bucket to the main.tf file in the Minikube-Infra directory.
-3. Create a Dynamodb table named iti-final-task with partition key named LockID of type String.
-
-
-
-## Steps to Deploy the application
-1. Clone the the repo
+- Build infrastructure, run provisioner on EC2 to run minikube and nginx as a reverse proxy, deploy jenkins and nexus resources on the k8s cluster.
+```sh
+  ./Build.sh
 ```
-git clone git@github.com:sambo2021/ITI-Final-Task.git
-```
-2. Build infrastructure, run provisioner on EC2 to run minikube and nginx as a reverse proxy, deploy jenkins and nexus resources on the k8s cluster.
-```
-./Build.sh
-```
-
-
-
-
-
-
-
-
-
-
-
-
-- to build infrastructure, connect to remote minikube, deploy jenkins and nexus resources ->  ./Build.sh
+- To build infrastructure, connect to remote minikube, deploy jenkins and nexus resources ->  ./Build.sh
 - open jenkins by ec2 ip and set user name and password, then download kubernetes plugin and configure a cloud node of kubernetes as per kink number 1 
 - then add config file taht downloades locally by script as secret file on jenkins using id mykubeconfig
 - dont forget to restart jenkins 
@@ -62,21 +64,21 @@ git clone git@github.com:sambo2021/ITI-Final-Task.git
 
 
 
-To access the cluster from Your machine do the following:
-1. Replace the certificates path with tha actual data and add -data to the end of each field for example certificate-authority: would become certificate-authority-data:
+### To access the cluster from Your machine do the following:
+- Replace the certificates path with tha actual data and add -data to the end of each field for example certificate-authority: would become certificate-authority-data:
 Also, use the output of the following commmand to populate the corresponding field 
 cat ca.crt | base64 -w 0 ; echo 
 cat client.key | base64 -w 0 ; echo
 cat client.crt | base64 -w 0 ; echo 
-2- Change the value of server field to "https://public_IP_of_ec2:49154"
-3- Replace the kubeconfig file with this file 
+- Change the value of server field to "https://public_IP_of_ec2:49154"
+- Replace the kubeconfig file with this file 
 
-Links:
-1-Configure Kubernetes Cloud to run pod as a agents
+### Links:
+- Configure Kubernetes Cloud to run pod as a agents
 https://devopscube.com/jenkins-build-agents-kubernetes/ 
 
-2-Build Docker image on kaniko
+- Build Docker image on kaniko
 https://devopscube.com/build-docker-image-kubernetes-pod/
 
-3-Pipeline for to build and Deploy on k8s cluster:
+- Pipeline for to build and Deploy on k8s cluster:
 https://www.youtube.com/watch?v=YnZQJAMK6JI&ab_channel=JustmeandOpensource
