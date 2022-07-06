@@ -39,7 +39,7 @@ resource "kubernetes_secret" "nexushub" {
           # "password" = var.registry_password
           # "email"    = var.registry_email
           # "auth"     = base64encode("${var.registry_username}:${var.registry_password}")
-          "10.103.202.61:8082" = {
+          "10.110.158.217:8082" = {
           "username" = "admin"
           "password" = "admin"
           # "auth"     = base64encode("admin:admin")
