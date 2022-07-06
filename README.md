@@ -25,8 +25,7 @@ Follow the Steps section to run this project.
  <img src="https://github.com/devicons/devicon/blob/master/icons/mysql/mysql-original-wordmark.svg" title=Mysql" alt="mysql" width="40" height="40"/>&nbsp;
  <img src="https://github.com/devicons/devicon/blob/master/icons/git/git-original-wordmark.svg" title="git" alt="git" width="40" height="40"/>&nbsp;
  <img src="https://github.com/devicons/devicon/blob/master/icons/github/github-original-wordmark.svg" title="github" alt="github" width="40" height="40"/>&nbsp;
- <img src="https://github.com/devicons/devicon/blob/master/icons/linux/linux-original.svg" title="linux" alt="linux" width="40" height="40"/>&nbsp;
- <img src="https://github.com/devicons/devicon/blob/master/icons/centos/centos-original-wordmark.svg" title="centos" alt="centos" width="40" height="40"/>&nbsp;        
+ <img src="https://github.com/devicons/devicon/blob/master/icons/linux/linux-original.svg" title="linux" alt="linux" width="40" height="40"/>&nbsp;       
 </div>
 
 ### Prerequisites
@@ -50,16 +49,82 @@ Follow the Steps section to run this project.
   ./Build.sh
 ```
 - To build infrastructure, connect to remote minikube, deploy jenkins and nexus resources ->  ./Build.sh
-- open jenkins by ec2 ip and set user name and password, then download kubernetes plugin and configure a cloud node of kubernetes as per kink number 1 
-- then add config file taht downloades locally by script as secret file on jenkins using id mykubeconfig
-- dont forget to restart jenkins 
-- open nexus at ec2-ip/nexus and set username and password *the same user name and password as secret.tf in ./Kubernetes-Resources* and create docker hosted repo at http port 8082 
-- back to jenkins and create a job of pipline by this repo link and Jenkinsfile
-- then you can access your application at ec2-ip/app  
-- to destroy the whole infrastructure->  ./Destroy.sh 
-- to know how we build the docker file inside kaniko container see Link number 2 
-- and to know prequesities that we had done of config file and kubernetes node cloud on jenkins see Link nunber 3
+- Open jenkins by ec2 ip and set user name and password, then download kubernetes plugin and configure a cloud node of kubernetes
+- Then add config file taht downloades locally by script as secret file on jenkins using id mykubeconfig
+- Dont forget to restart jenkins 
+- Open nexus at ec2-ip/nexus and set username and password *the same user name and password as secret.tf in ./Kubernetes-Resources* and create docker hosted repo at http port 8082 
+- Back to jenkins and create a job of pipline by this repo link and Jenkinsfile
+- Then you can access your application at ec2-ip/app  
+- To destroy the whole infrastructure->  ./Destroy.sh 
+- To know how we build the docker file inside kaniko container see Links number 2 
+- And to know prequesities that we had done of config file and kubernetes node cloud on jenkins see Links number 3
 
+### What behind Build.sh
+- creating empty key and 2 inventory files as shown :
+  ```sh
+    touch ./Minikube-Infra/TF_key.pem
+    touch ./Ansible-Credentials/inventory
+    touch ./Get-Passwords/inventory
+  ```  
+- building minikube cluster remotely on ec2 and using its local exec to set ec2 ip to inventory in ../Ansible-Credentials/inventory , ../Get-Passwords/inventory and kubernetes provider in ../Kubernetes-Resources/main.tf
+   ```sh
+    cd ./Minikube-Infra
+    terraform init
+    terraform apply -auto-approve
+   ```
+
+- play ansible that get all cluster certificates and config file to local ../Kubernetes-Resources
+   ```sh
+    cd ../Ansible-Credentials
+    ansible-playbook  playbook.yaml --private-key ../Minikube-Infra/TF_key.pem -u ubuntu --ssh-common-args='-o StrictHostKeyChecking=no' --verbose
+    ```
+- after getting config file change its certificates urls by content of downlodes certificates 
+   ```sh 
+    cd ../Kubernetes-Resources
+    var1=$(cat ca.crt | base64 -w 0 ; echo )
+    sed -i -e "/certificate-authority:/ s/certificate-authority:[^/\n]*/certificate-authority-data: ${var1}/g"  ./config
+    var2=$(cat client.crt | base64 -w 0 ; echo )
+    sed -i -e "/client-certificate:/ s/client-certificate:[^/\n]*/client-certificate-data: ${var2}/g"  ./config
+    var3=$(cat client.key | base64 -w 0 ; echo )
+    sed -i -e "/client-key:/ s/client-key:[^/\n]*/client-key-data: ${var3}/g"  ./config  
+    sed -i "s|/root/.minikube/ca.crt||g" ./config
+    sed -i "s|/root/.minikube/profiles/minikube/client.crt||g" ./config
+    sed -i "s|/root/.minikube/profiles/minikube/client.key||g" ./config
+   ```
+- now kubernetes provider has its ec2 ip which apiserver endpoint listen to and has all its certificate and has config that gonna be use by jenkins secret file credentials to deploy on minikube from pipeline 
+- apply all kubernetes resources to build jenkins and nexus  
+   ```sh
+    terraform init
+    terraform apply -auto-approve
+   ``` 
+- getting jenkins & nexus passwords and apply new nexus cluster ip service to ../CI-CD/app.yaml and ../Kubernetes-Resources/secret.tf
+   ```sh
+    cd ../Get-Passwords
+    ansible-playbook -i inventory playbook.yaml --private-key ../Minikube-Infra/TF_key.pem -u ubuntu --ssh-common-args='-oStrictHostKeyChecking=no' 
+   ``` 
+- applly agian kubernetes resources to change that new service ip cause the old one from our previous build
+   ```sh 
+    cd ../Kubernetes-Resources
+    terraform apply -auto-approve
+   ```
+- now pushing all new changes to git hub 
+    ```sh
+    cd ..
+    git add . 
+    git commit -m "update nexus service ip to new one"
+    git push -u origin master
+    ```
+- printing jenkins password and nexus password on terminal 
+   ```sh
+    echo "Infrastructure has been built Successfully "
+    echo "-------------------"
+    echo "Jenkins-Password : "
+    awk ' {print $1}' ./Get-Passwords/file.txt
+    echo "-------------------"
+    echo "nexus-Password : "
+    awk ' {print $2}' ./Get-Passwords/file.txt 
+    echo "--------------------"
+   ```
 
 
 ### To access the cluster from Your machine do the following:
