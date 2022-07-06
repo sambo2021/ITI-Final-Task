@@ -47,8 +47,9 @@ if [[ ! -f "./Minikube-Infra/TF_key.pem" ]]; then
     git commit -m "update nexus service ip to new one"
     git push -u origin master
     
-    cd ..
+
     echo "Infrastructure has been built Successfully "
+    echo "-------------------"
     echo "Jenkins-Password : "
     awk ' {print $1}' ./Get-Passwords/file.txt
     echo "-------------------"
