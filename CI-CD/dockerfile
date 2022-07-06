@@ -1,5 +1,9 @@
-FROM node:12
+FROM node:12-slim
 COPY nodeapp /nodeapp
 WORKDIR /nodeapp
 RUN npm install
+ENV HOST="localhost"
+ENV USERNAME="root"
+ENV PASSWORD="password"
+ENV DATABASE="iti42"
 CMD ["node", "/nodeapp/app.js"]

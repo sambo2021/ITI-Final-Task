@@ -14,3 +14,21 @@
 #   sensitive = true
 #   type = string
 # }
+
+
+# variable "MYSQL_ROOT_PASSWORD" {
+#   sensitive = true
+#   type = string
+# }
+# variable "MYSQL_DATABASE" {
+#   sensitive = true
+#   type = string
+# }
+# variable "HOST" {
+#   sensitive = true
+#   type = string
+# }
+# variable "USERNAME" {
+#   sensitive = true
+#   type = string
+# }

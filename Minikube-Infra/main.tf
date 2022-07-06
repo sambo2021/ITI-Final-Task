@@ -10,7 +10,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket         = "iti-final-task-s3"
+    bucket         = "iti-final-task-s3-abdo"
     key            = "terraform.tfstate"
     region         = "us-west-2"
     dynamodb_table = "iti-final-task"

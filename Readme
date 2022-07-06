@@ -1,3 +1,42 @@
+# Final ITI project intake 42
+This project provision an ec2 on aws and configure to run minikube to function as a a single-node kubernetes cluster, deploy a nodejs app and install nginx to function as a reverse-proxy.\
+Follow the Steps section to run this project.
+## Tools used
+<a href="https://www.terraform.io/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/terraformio/terraformio-icon.svg" alt="terraform" width="40" height="40"/> </a> <a href="https://www.ansible.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/ansible/ansible-icon.svg" alt="ansible" width="40" height="40"/> </a>  <a href="https://aws.amazon.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg" alt="aws" width="40" height="40"/> </a> <a href="https://www.gnu.org/software/bash/" target="_blank" rel="noreferrer">  <img src="https://www.vectorlogo.zone/logos/docker/docker-official.svg" alt="docker" width="40" height="40"/> </a> <a href="https://www.jenkins.io" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/jenkins/jenkins-icon.svg" alt="jenkins" width="40" height="40"/> </a> <a href="https://www.gnu.org/software/bash/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/gnu_bash/gnu_bash-icon.svg" alt="bash" width="40" height="40"/>
+<img src="https://www.vectorlogo.zone/logos/kubernetes/kubernetes-icon.svg" width="40" height="40"/> </a> 
+
+## Prerequisites
+
+1. Create an aws iam user with programmatic access. Run the following command to access the aws and create resources
+```
+aws configure
+```
+2. Create a S3 bucket to be used to store the terraform state file and enable versioning. Add the name of the S3 bucket to the main.tf file in the Minikube-Infra directory.
+3. Create a Dynamodb table named iti-final-task with partition key named LockID of type String.
+
+
+
+## Steps to Deploy the application
+1. Clone the the repo
+```
+git clone git@github.com:sambo2021/ITI-Final-Task.git
+```
+2. Build infrastructure, run provisioner on EC2 to run minikube and nginx as a reverse proxy, deploy jenkins and nexus resources on the k8s cluster.
+```
+./Build.sh
+```
+
+
+
+
+
+
+
+
+
+
+
+
 - to build infrastructure, connect to remote minikube, deploy jenkins and nexus resources ->  ./Build.sh
 - open jenkins by ec2 ip and set user name and password, then download kubernetes plugin and configure a cloud node of kubernetes as per kink number 1 
 - then add config file taht downloades locally by script as secret file on jenkins using id mykubeconfig
