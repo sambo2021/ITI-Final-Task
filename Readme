@@ -1,6 +1,6 @@
 <div id="header" align="center"> <h1> Final ITI project intake 42 </h1></div>
 ![docker](https://img.shields.io/badge/Docker-Container-blue)
-![terraform](https://img.shields.io/badge Terraform-Infrastructure-darkblue)
+![terraform](https://img.shields.io/badge/Terraform-Infrastructure-darkblue)
 ![ansible](https://img.shields.io/badge/Ansible-Configuration-lightblack)
 ![jenkins](https://img.shields.io/badge/Jenkins-Automation-white)
 ![aws](https://img.shields.io/badge/AWS-CloudProvider-yellow)
