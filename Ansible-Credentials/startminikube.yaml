@@ -1,0 +1,8 @@
+- name: copy minikube credentials to local 
+  hosts: remote-server
+  gather_facts: false
+  become: true
+  tasks:
+  - name: start minikube
+    shell:
+      cmd: sudo minikube start --memory 7500 --cpus 2 --disk-size 10GB --apiserver-ips={{ ansible_host }} --listen-address=0.0.0.0 --kubernetes-version 1.23.8 --driver=docker --force

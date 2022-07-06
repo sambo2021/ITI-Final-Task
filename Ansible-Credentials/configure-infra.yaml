@@ -1,0 +1,106 @@
+- name: "install docker and minikube"
+  hosts: remote-server
+  gather_facts: false
+  tasks:
+  - name: Get the stable version of kubectl 
+    shell:
+      cmd: curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt
+    register: Stable
+    when: RUN == true
+  - name: installing and extracting the binaries
+    get_url:
+      dest: /home/ubuntu
+      url: "https://storage.googleapis.com/kubernetes-release/release/{{ Stable.stdout }}/bin/linux/amd64/kubectl"
+  - name: Add execute permission to kubectl binaries
+    file:
+      path: /home/ubuntu/kubectl
+      mode: u+x,g+x,o+x
+  - name: move kubectl binaries
+    shell:
+      cmd: mv  /home/ubuntu/kubectl /usr/local/bin/kubectl
+  - name: update packages
+    apt:
+      update_cache: yes
+  - name: packages to allow apt to use a repository over HTTPS
+    apt:
+      name: "{{ item }}"
+      state: present
+    loop: "{{ https_package }}"
+  - name: Create a directory for keys
+    file:
+      path: /etc/apt/keyrings
+      state: directory
+      recurse: yes
+  - name: Add Docker's official GPG key
+    shell: 
+      cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    when: RUN == true
+  - name:  set up docker repository
+    shell:
+      cmd: echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    when: RUN == true
+  - name: update packages
+    apt:
+      update_cache: yes
+  - name: Install Docker Engine
+    apt:
+      name: "{{ item }}"
+      state: present
+    loop: "{{ docker_packages }}"
+    notify: 
+    - start docker service
+  - name: Add the ubuntu user to docker group
+    user:
+      name: ubuntu
+      groups: docker 
+      append: yes
+  - name: install minikube
+    apt:
+      deb: https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+      state: present
+  handlers:
+  - name: start docker service
+    service: 
+      name: docker 
+      state: started 
+      enabled: yes
+- name: "start minikube "
+  hosts: remote-server  
+  gather_facts: false
+  tasks:
+  - name: start minikube
+    become: no
+    shell:
+      cmd: sudo minikube start --memory 7500 --cpus 2 --disk-size 10GB --apiserver-ips={{ ansible_host }} --listen-address=0.0.0.0 --kubernetes-version 1.23.8 --driver=docker --force
+- name: Setup nginx as a reverse proxy
+  hosts: remote-server
+  gather_facts: false
+  tasks:
+  - name: update the packages
+    apt:
+      update_cache: yes
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: present
+  - name: Removing the default destination for nginx
+    shell:
+      cmd: unlink /etc/nginx/sites-enabled/default
+    when: RUN == true
+  - name: creating reverse-proxy.conf file
+    copy: 
+     dest: "/etc/nginx/sites-available/"
+     src: reverse-proxy.conf
+     mode: 777
+  - name: Create a symbolic link for the reverse-proxy.conf
+    file:
+      src: /etc/nginx/sites-available/reverse-proxy.conf
+      dest: /etc/nginx/sites-enabled/reverse-proxy.conf
+      state: link
+  - name: Test the config  of nginx service
+    shell:
+      cmd: service nginx configtest
+  - name: Restart nginx service
+    service:
+      name: nginx
+      state: restarted

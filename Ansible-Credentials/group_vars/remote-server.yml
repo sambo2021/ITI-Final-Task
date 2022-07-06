@@ -1,0 +1,15 @@
+ansible_host: 52.12.191.188
+ansible_ssh_private_key_file: ../Minikube-Infra/TF_key.pem
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+https_package:
+- ca-certificates 
+- curl 
+- gnupg 
+- lsb-release
+- apt-transport-https
+docker_packages:
+- docker-ce 
+- docker-ce-cli 
+- containerd.io 
+- docker-compose-plugin
+RUN: false
