@@ -7,7 +7,7 @@
       register: jenkinspass
    
     - name: getting nexus admin password at first log in 
-      shell:  sudo kubectl exec -it  $(sudo kubectl get pods -A | grep -i nexus* | awk '{ print $2 }') -n tools -- bash -c "cat /nexus-data/admin.password"
+      shell:  sudo kubectl exec -it  $(sudo kubectl get pods -n tools | grep -i nexus* | awk '{ print $1 }') -n tools -- bash -c "cat /nexus-data/admin.password"
       register: nexuspass
     
     - name: getting nexus service repo ip 

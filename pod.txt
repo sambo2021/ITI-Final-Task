@@ -1,8 +1,0 @@
-- to find admin password of jenkins pod 
-  # sudo kubectl logs  $(sudo kubectl get pods -n tools | grep -i jenkins* | awk '{ print $1 }') -n tools | grep -A2 -P '^Please use the following password*' | sed -n 3p
-
-- to find admin password of nexus pod 
-  # sudo kubectl exec -it  $(sudo kubectl get pods -A | grep -i nexus* | awk '{ print $2 }') -n tools -- bash -c "cat /nexus-data/admin.password"
-
-- to find cluster ip service of nexus 
-  # kubectl get svc -n tools | grep -i nexus-repo-svc1 | awk '{ print $3 }'

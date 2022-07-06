@@ -1,9 +1,0 @@
-      "curl https://raw.githubusercontent.com/sambo2021/jenkins-infra/main/jenkins-deployment.yaml > jenkins-deployment.yaml ",
-      "sudo kubectl create -f jenkins-deployment.yaml -n tools",
-      "curl https://raw.githubusercontent.com/sambo2021/jenkins-infra/main/jenkins-service.yaml > jenkins-service.yaml",
-      "sudo kubectl create -f jenkins-service.yaml -n tools",
-      
-      "curl https://raw.githubusercontent.com/sambo2021/nexus-infra/main/nexus-deployment.yaml > nexus-deployment.yaml ",
-      "sudo kubectl create -f nexus-deployment.yaml -n tools",
-      "curl https://raw.githubusercontent.com/sambo2021/nexus-infra/main/nexus-service.yaml > nexus-service.yaml",
-      "sudo kubectl create -f nexus-service.yaml -n tools",
