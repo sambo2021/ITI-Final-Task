@@ -64,7 +64,7 @@ resource "aws_instance" "publicinstance" {
       "sudo unlink /etc/nginx/sites-enabled/default",
       "sudo touch /etc/nginx/sites-available/reverse-proxy.conf",
       "sudo chmod 777 /etc/nginx/sites-available/reverse-proxy.conf",
-      "sudo echo 'server { \n  listen 80; \n \n location  / { \n   proxy_pass http://192.168.49.2:32000/ ; \n } \n \n location ^~ /nexus/ { \n   proxy_pass http://192.168.49.2:32001/ ;  \n } \n \n }' > /etc/nginx/sites-available/reverse-proxy.conf",
+      "sudo echo 'server { \n  listen 80; \n \n location  / { \n   proxy_pass http://192.168.49.2:32000/ ; \n } \n \n location ^~ /nexus/ { \n   proxy_pass http://192.168.49.2:32001/ ;  \n } \n \n location ^~ /app/ { \n   proxy_pass http://192.168.49.2:32002/ ;  \n } \n \n }' > /etc/nginx/sites-available/reverse-proxy.conf",
       "sudo ln -s /etc/nginx/sites-available/reverse-proxy.conf /etc/nginx/sites-enabled/reverse-proxy.conf",
       "sudo service nginx configtest",
       "sudo service nginx restart",
