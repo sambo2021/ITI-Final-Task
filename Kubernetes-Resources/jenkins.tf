@@ -3,6 +3,9 @@ resource "kubernetes_service_account" "jenkins-sa" {
     name = "jenkins-admin"
     namespace = "tools"
   }
+   depends_on = [
+    kubernetes_namespace.tools-ns
+  ]
 }
 resource "kubernetes_cluster_role" "jenkins-role" {
   metadata {
@@ -26,6 +29,8 @@ resource "kubernetes_cluster_role" "jenkins-role" {
     resources = [ "deployments" ]
     verbs = ["create","delete","get","list","patch","update","watch"]
   }
+
+
 }
 resource "kubernetes_cluster_role_binding" "jenkins-role-binding" {
     metadata {
@@ -41,7 +46,9 @@ resource "kubernetes_cluster_role_binding" "jenkins-role-binding" {
       name = "jenkins-admin"
       namespace = "tools"
     }
-  
+   depends_on = [
+    kubernetes_service_account.jenkins-sa
+  ]
 }
 resource "kubernetes_persistent_volume_claim" "jenkins-pvc" {
     metadata {
@@ -56,6 +63,10 @@ resource "kubernetes_persistent_volume_claim" "jenkins-pvc" {
         }
       }
     }
+
+     depends_on = [
+    kubernetes_namespace.tools-ns
+  ]
 }
 
 resource "kubernetes_service" "jenkins-svc" {
@@ -82,7 +93,9 @@ resource "kubernetes_service" "jenkins-svc" {
       }
       type = "NodePort" 
     }
-
+ depends_on = [
+    kubernetes_namespace.tools-ns
+  ]
 }
 resource "kubernetes_deployment" "jenkins" {
   metadata {
@@ -166,4 +179,7 @@ resource "kubernetes_deployment" "jenkins" {
       }
     }
   }
+   depends_on = [
+    kubernetes_namespace.tools-ns
+  ]
 }

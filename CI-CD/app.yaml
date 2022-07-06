@@ -16,7 +16,7 @@ spec:
         tier: app
     spec:
       containers:
-      - image: 10.100.200.239:8082/myweb:lts  
+      - image: 10.98.89.172:8082/myweb:lts  
         name: myweb
         ports:
           - containerPort: 3000

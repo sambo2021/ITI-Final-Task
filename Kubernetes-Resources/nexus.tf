@@ -11,6 +11,10 @@ resource "kubernetes_persistent_volume_claim" "nexus-pvc" {
         }
       }
     }
+
+ depends_on = [
+    kubernetes_namespace.tools-ns
+  ]
 }
 
 resource "kubernetes_service" "nexus-svc" {
@@ -31,7 +35,9 @@ resource "kubernetes_service" "nexus-svc" {
       }
       type = "NodePort" 
     }
-
+ depends_on = [
+    kubernetes_namespace.tools-ns
+  ]
 }
 
 
@@ -126,4 +132,8 @@ resource "kubernetes_deployment" "nexus" {
       }
     }
   }
+
+  depends_on = [
+    kubernetes_namespace.tools-ns
+  ]
 }

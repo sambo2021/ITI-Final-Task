@@ -22,6 +22,10 @@ resource "kubernetes_secret" "dockerhub" {
       }
     })
   }
+
+   depends_on = [
+    kubernetes_namespace.tools-ns
+  ]
 }
 
 resource "kubernetes_secret" "nexushub" {
@@ -34,4 +38,8 @@ resource "kubernetes_secret" "nexushub" {
     "password" = "admin"
 
   }
+
+   depends_on = [
+    kubernetes_namespace.dev-ns
+  ]
 }

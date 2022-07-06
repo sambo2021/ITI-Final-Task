@@ -8,6 +8,10 @@ resource "kubernetes_secret" "dv-secret" {
     "MYSQL_DATABASE" = "db"
 
   }
+ depends_on = [
+    kubernetes_namespace.dev-ns
+  ]
+
 }
 resource "kubernetes_secret" "app-secret" {
   metadata {
@@ -20,4 +24,8 @@ resource "kubernetes_secret" "app-secret" {
     "PASSWORD" = "password"
     "DATABASE" = "db"
   }
+
+   depends_on = [
+    kubernetes_namespace.dev-ns
+  ]
 }
