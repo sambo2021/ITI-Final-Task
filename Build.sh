@@ -50,13 +50,13 @@ if [[ ! -f "./Minikube-Infra/TF_key.pem" ]]; then
     cd ..
     echo "Infrastructure has been built Successfully "
     echo "Jenkins-Password : "
-    sed -n '1p' ./Get-Passwords/file.txt
+    awk ' {print $1}' ./Get-Passwords/file.txt
     echo "-------------------"
     echo "nexus-Password : "
-    sed -n '2p' ./Get-Passwords/file.txt 
+    awk ' {print $2}' ./Get-Passwords/file.txt 
     echo "--------------------"
     echo "nexus-repo-cluster-ip : "
-    sed -n '3p' ./Get-Passwords/file.txt 
+    awk ' {print $3}' ./Get-Passwords/file.txt 
     
     
 

@@ -43,7 +43,7 @@ spec:
                 key: DATABASE
                 name: app-secret
       imagePullSecrets:
-        -  name: dockercreds
+        -  name: nexuscreds
           
 ---
 apiVersion: v1
