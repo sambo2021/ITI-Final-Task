@@ -16,12 +16,15 @@ if [[ ! -f "./Minikube-Infra/TF_key.pem" ]]; then
     
     # after getting config file change its certificates by data 
     cd ../Kubernetes-Resources
-    var1="$(cat ca.crt | base64 -w 0 ; echo )"
+    var1=$(cat ca.crt | base64 -w 0 ; echo )
     sed -i -e "/certificate-authority:/ s/certificate-authority:[^/\n]*/certificate-authority-data: ${var1}/g"  ./config
-    var2="$(cat client.crt | base64 -w 0 ; echo )"
+    var2=$(cat client.crt | base64 -w 0 ; echo )
     sed -i -e "/client-certificate:/ s/client-certificate:[^/\n]*/client-certificate-data: ${var2}/g"  ./config
-    var3="$(cat client.key | base64 -w 0 ; echo )"
+    var3=$(cat client.key | base64 -w 0 ; echo )
     sed -i -e "/client-key:/ s/client-key:[^/\n]*/client-key-data: ${var3}/g"  ./config  
+    sed -i "s|/root/.minikube/ca.crt||g" ./config
+    sed -i "s|/root/.minikube/profiles/minikube/client.crt||g" ./config
+    sed -i "s|/root/.minikube/profiles/minikube/client.key||g" ./config
     
     # now kubernetes provider has its ec2 ip which apiserver endpoint listen to 
     # and has all its certificate 
@@ -37,6 +40,12 @@ if [[ ! -f "./Minikube-Infra/TF_key.pem" ]]; then
     # applly agian kubernetes resources to change that new service ip cause the old one from our previous build
     cd ../Kubernetes-Resources
     terraform apply -auto-approve
+
+    # now pushing all new changins to git hub 
+    cd ..
+    git add . 
+    git commit -m "update nexus service ip to new one"
+    git push -u origin master
     
     cd ..
     echo "Infrastructure has been built Successfully "
