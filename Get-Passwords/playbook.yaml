@@ -25,4 +25,3 @@
                    {{ hostvars[groups['remote-server'][0]]['nexusserviceip']['stdout'] }}
                    " 
     - command: sed -i -e 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"{{ hostvars[groups['remote-server'][0]]['nexusserviceip']['stdout'] }}"'/g'  ../CI-CD/app.yaml
-    - command: sed -i -e 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"{{ hostvars[groups['remote-server'][0]]['nexusserviceip']['stdout'] }}"'/g'  ../Kubernetes-Resources/secret.tf

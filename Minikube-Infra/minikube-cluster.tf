@@ -55,7 +55,7 @@ resource "aws_instance" "publicinstance" {
       "sudo wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64",
       "sudo chmod +x /home/ubuntu/minikube-linux-amd64",
       "sudo cp minikube-linux-amd64 /usr/local/bin/minikube",
-      "sudo minikube start --memory 7500 --cpus 2 --disk-size 10GB --apiserver-ips=${self.public_ip} --listen-address=0.0.0.0 --kubernetes-version 1.23.8 --driver=docker --force",
+      "sudo minikube start --memory 7500 --cpus 2 --disk-size 15GB --apiserver-ips=${self.public_ip} --listen-address=0.0.0.0 --kubernetes-version 1.23.8 --driver=docker --force",
       
       "sudo kubectl get pods",
       "sudo usermod -aG docker ubuntu",
@@ -88,6 +88,7 @@ resource "aws_instance" "publicinstance" {
      echo "[remote-server]" > ../Get-Passwords/inventory
      echo '${self.public_ip}' >> ../Get-Passwords/inventory
      sed -i -e 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"${self.public_ip}"'/g'  ../Kubernetes-Resources/main.tf
+     sed -i -e 's/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/'"${self.public_ip}"'/g'  ../Ansible-Credentials/group_vars/remote-server.yml
      EOT
   }
  
