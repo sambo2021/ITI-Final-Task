@@ -44,7 +44,7 @@ resource "kubernetes_secret" "nexushub" {
     ".dockerconfigjson" = jsonencode({
       auths = {
        
-          "10.110.240.138:8082" = {
+          "10.109.8.246:8082" = {
           "username" = "admin"
           "password" = "admin"
       
