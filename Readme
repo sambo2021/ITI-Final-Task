@@ -1,5 +1,5 @@
-to build and connect to remote minikube ->  ./Build.sh
-to destroy the whole infrastructure     ->  ./Destroy.sh 
+to build infrastructure, connect to remote minikube, deploy jenkins and nexus resources ->  ./Build.sh
+to destroy the whole infrastructure->  ./Destroy.sh 
 
 To access the cluster from Your machine do the following:
 1. Replace the certificates path with tha actual data and add -data to the end of each field for example certificate-authority: would become certificate-authority-data:
