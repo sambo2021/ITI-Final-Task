@@ -1,13 +1,11 @@
-<div id="header" text-align="center"> <h1> Final ITI project intake 42 </h1></div>
+
 ![docker](https://img.shields.io/badge/Docker-Container-blue)
 ![terraform](https://img.shields.io/badge/Terraform-Infrastructure-darkblue)
 ![ansible](https://img.shields.io/badge/Ansible-Configuration-lightblack)
 ![jenkins](https://img.shields.io/badge/Jenkins-Automation-white)
 ![aws](https://img.shields.io/badge/AWS-CloudProvider-yellow)
 ![Kuberntes](https://img.shields.io/badge/kubernetes-Orchesterator-blue)
-
-
-
+<div id="header" text-align="center"> <h1> Final ITI project intake 42 </h1></div>
 <div>
 <h4>
 This project provision an ec2 on aws and configure to run minikube to function as a a single-node kubernetes cluster, deploy a nodejs app and install nginx to function as a reverse-proxy
