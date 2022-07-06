@@ -29,7 +29,6 @@ pipeline {
             steps{
                 container('kubectl'){
                     withCredentials([file(credentialsId: 'mykubeconfig', variable: 'KUBECONFIG')]){
-                        // sh 'kubectl run -it  mysql --env MYSQL_ROOT_PASSWORD="password"  --port=3306  --image=mysql:5.6 -n dev'
                         sh 'kubectl apply -f `pwd`/CI-CD/mysql.yaml'
                         sh 'kubectl apply -f `pwd`/CI-CD/app.yaml'
                       
