@@ -1,5 +1,5 @@
 provider "kubernetes" {
-    host = "https://35.161.232.190:49154"
+    host = "https://35.87.152.3:49154"
     # client_certificate =     "~/root/.minikube/profiles/minikube/client.crt"
     # client_key =             "~/root/.minikube/profiles/minikube/client.key"
     # cluster_ca_certificate = "~/root/.minikube/ca.crt"
