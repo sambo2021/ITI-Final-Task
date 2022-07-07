@@ -1,4 +1,4 @@
-ansible_host: 34.210.87.42
+ansible_host: 35.161.232.190
 ansible_ssh_private_key_file: ../Minikube-Infra/TF_key.pem
 ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
 https_package:
